@@ -1,0 +1,37 @@
+    def read_links(self):
+        try:
+            url = self.window.textBrowser.toPlainText()
+            if not url:
+                self.show_message("Ошибка", "Поле ввода ссылок пустое")
+                return
+
+            with urllib.request.urlopen(url) as blist:
+                for line in blist:
+                    ip_str = line.decode("utf-8").strip()
+                    if not ip_str:
+                        continue  # Пропускаем пустые строки
+
+                    try:
+                        connection = self.get_connection()
+                        try:
+                            with connection.cursor() as cursor:
+                                # Используем параметризованный запрос для безопасности
+                                insert_query = "INSERT INTO threats (threat_name) VALUES (%s);"
+                                cursor.execute(insert_query, (ip_str,))
+                                connection.commit()
+                        except Exception as e:
+                            print(f"Ошибка при вставке {ip_str}: {e}")
+                            connection.rollback()
+                        finally:
+                            connection.close()
+                    except ValueError as ve:
+                        print(f"Skipping invalid IP: {ip_str} - {ve}")
+                    except Exception as e:
+                        print(f"Ошибка соединения с БД {ip_str}: {e}")
+
+
+                            def open_file(self):
+        file_path, _ = QFileDialog.getOpenFileName(self, "Открыть файл", "", "Text Files (*.txt)")
+        if file_path:
+            self.file_path = file_path
+            self.load_file()
