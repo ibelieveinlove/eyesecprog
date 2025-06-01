@@ -34,7 +34,7 @@ class Ui_MainWindow(object):
         self.main_horizontal_layout.setSpacing(0)
         self.main_horizontal_layout.setContentsMargins(0, 0, 0, 0)
 
-        # Боковая панель (меню)
+        # Боковая панель (меню) - ВОССТАНОВЛЕН ИСХОДНЫЙ ВИД
         self.side_menu = QWidget(self.centralwidget)
         self.side_menu.setObjectName(u"side_menu")
         self.side_menu.setMinimumWidth(250)
@@ -263,7 +263,139 @@ class Ui_MainWindow(object):
         self.save_btn.setCursor(QCursor(Qt.PointingHandCursor))
         self.info_vertical_layout.addWidget(self.save_btn)
 
-        self.main_content_layout.addWidget(self.info_widget, 2)
+
+
+        # Блок тегов (правая часть) - оригинальные названия
+        self.info_widget_threat = QWidget()
+        self.info_widget_threat.setObjectName(u"info_widget_threat")
+        self.info_widget_threat.setStyleSheet(u"""
+            QWidget {
+                background-color: #ffffff;
+                border-radius: 12px;
+                padding: 0px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            }
+        """)
+        self.info_widget_threat.setFixedHeight(400)
+
+        self.info_vertical_layout_threat = QVBoxLayout(self.info_widget_threat)
+        self.info_vertical_layout_threat.setContentsMargins(0, 0, 0, 0)
+        self.info_vertical_layout_threat.setSpacing(0)
+
+        # Компактный виджет заголовка (50px высотой)
+        self.tags_header = QWidget()
+        self.tags_header.setObjectName(u"tags_header")
+        self.tags_header.setFixedHeight(50)
+        self.tags_header.setStyleSheet(u"""
+            QWidget {
+                background-color: #f8f9fa;
+                border-top-left-radius: 12px;
+                border-top-right-radius: 12px;
+                padding: 10px 15px;
+            }
+        """)
+
+        self.tags_header_layout = QHBoxLayout(self.tags_header)
+        self.tags_header_layout.setContentsMargins(0, 0, 0, 0)
+
+        # Заголовок "Теги"
+        self.label_5 = QLabel()
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setStyleSheet(u"""
+            QLabel {
+                font-size: 16px;
+                font-weight: bold;
+                color: #2E3440;
+                background-color: transparent;
+            }
+        """)
+
+        # Кнопка "Добавить тег" (компактная)
+        self.add_tag_btn = QPushButton()
+        self.add_tag_btn.setObjectName(u"add_tag_btn")
+        self.add_tag_btn.setFixedSize(100, 30)
+        self.add_tag_btn.setStyleSheet(u"""
+            QPushButton {
+                background-color: #5E81AC;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+            QPushButton:hover {
+                background-color: #81A1C1;
+            }
+            QPushButton:pressed {
+                background-color: #4C566A;
+            }
+        """)
+        self.add_tag_btn.setCursor(QCursor(Qt.PointingHandCursor))
+
+        # Кнопка "удалить тег" (компактная)
+        self.delete_tag_btn = QPushButton()
+        self.delete_tag_btn.setObjectName(u"delete_tag_btn")
+        self.delete_tag_btn.setFixedSize(100, 30)
+        self.delete_tag_btn.setStyleSheet(u"""
+            QPushButton {
+                background-color: #5E81AC;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+            QPushButton:hover {
+                background-color: #81A1C1;
+            }
+            QPushButton:pressed {
+                background-color: #4C566A;
+            }
+        """)
+        self.delete_tag_btn.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.tags_header_layout.addWidget(self.label_5)
+        self.tags_header_layout.addStretch(1)
+        self.tags_header_layout.addWidget(self.add_tag_btn)
+        self.tags_header_layout.addWidget(self.delete_tag_btn)
+
+        self.info_vertical_layout_threat.addWidget(self.tags_header)
+
+        # Основная область тегов с фиксированным скроллбаром
+        self.tags_scroll_area = QScrollArea()
+        self.tags_scroll_area.setObjectName(u"tags_scroll_area")
+        self.tags_scroll_area.setWidgetResizable(True)
+        self.tags_scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.tags_scroll_area.setStyleSheet(u"""
+            QScrollArea {
+                border: none;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+            }
+            QScrollBar:vertical {
+                width: 10px;
+                background: #f1f1f1;
+            }
+            QScrollBar::handle:vertical {
+                background: #c1c1c1;
+                min-height: 20px;
+                border-radius: 4px;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+                height: 0px;
+            }
+        """)
+
+        self.tags_container = QWidget()
+        self.tags_container.setObjectName(u"tags_container")
+        self.tags_container.setStyleSheet(u"background-color: transparent;")
+        self.tags_layout = QVBoxLayout(self.tags_container)
+        self.tags_layout.setContentsMargins(15, 10, 15, 15)
+        self.tags_layout.setSpacing(8)
+        self.tags_layout.addStretch()
+
+        self.tags_scroll_area.setWidget(self.tags_container)
+        self.info_vertical_layout_threat.addWidget(self.tags_scroll_area)
 
         # Блок управления (вертикальный) - ПРАВАЯ ЧАСТЬ
         self.control_widget = QWidget()
@@ -372,7 +504,24 @@ class Ui_MainWindow(object):
 
         self.control_vertical_layout.addStretch(1)
 
-        self.main_content_layout.addWidget(self.control_widget, 1)
+        # Вертикальный макет для правой части
+        self.right_side_layout = QVBoxLayout()
+        self.right_side_layout.setContentsMargins(0, 0, 0, 0)
+        self.right_side_layout.setSpacing(20)
+
+        # Добавляем блок тегов
+        self.right_side_layout.addWidget(self.info_widget_threat)
+
+        # Добавляем блок управления
+        self.right_side_layout.addWidget(self.control_widget)
+
+        # Контейнер для правой части
+        self.right_side_container = QWidget()
+        self.right_side_container.setLayout(self.right_side_layout)
+
+        # Добавляем основные виджеты в главный layout
+        self.main_content_layout.addWidget(self.info_widget, 2)
+        self.main_content_layout.addWidget(self.right_side_container, 1)
 
         self.content_vertical_layout.addWidget(self.main_content_widget, 1)
 
@@ -399,3 +548,6 @@ class Ui_MainWindow(object):
         self.sort_by_column_btn.setText(QCoreApplication.translate("MainWindow", u"Сортировать по столбцу", None))
         self.table_constructor_btn.setText(QCoreApplication.translate("MainWindow", u"Конструктор таблиц", None))
         self.save_btn.setText(QCoreApplication.translate("MainWindow", u"Сохранить", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Теги", None))
+        self.add_tag_btn.setText(QCoreApplication.translate("MainWindow", u"Добавить тег", None))
+        self.delete_tag_btn.setText(QCoreApplication.translate("MainWindow", u"Удалить тэг", None))

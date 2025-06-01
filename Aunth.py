@@ -213,28 +213,7 @@ class Ui_MainWindow(object):
         self.form_layout.addWidget(self.textEdit_table)
 
         # Кнопка авторизации
-        self.auth_button = QPushButton(self.form_frame)
-        self.auth_button.setObjectName(u"auth_button")
-        self.auth_button.setStyleSheet(u"""
-            QPushButton {
-                background-color: #5E81AC;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                padding: 10px;
-                font-size: 16px;
-                font-weight: bold;
-                margin-top: 10px;
-            }
-            QPushButton:hover {
-                background-color: #81A1C1;
-            }
-            QPushButton:pressed {
-                background-color: #4C566A;
-            }
-        """)
-        self.auth_button.setCursor(QCursor(Qt.PointingHandCursor))
-        self.form_layout.addWidget(self.auth_button)
+
 
         self.verticalLayout.addWidget(self.form_frame)
         self.verticalLayout.addStretch()
@@ -252,4 +231,3 @@ class Ui_MainWindow(object):
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Database login", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Database password", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Database table", None))
-        self.auth_button.setText(QCoreApplication.translate("MainWindow", u"Войти", None))

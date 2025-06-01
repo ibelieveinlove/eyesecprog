@@ -62,7 +62,7 @@ class DatabaseHandler():
                 return
 
             # Указываем полный путь к файлу для надёжности
-            file_path = os.path.join(os.getcwd(), 'threats.txt')
+            file_path = os.path.join(os.getcwd(), 'threat.txt')
 
             with urllib.request.urlopen(url) as blist:
                 # Открываем файл в режиме добавления ('a') с явным указанием кодировки
